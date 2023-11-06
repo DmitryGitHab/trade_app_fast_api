@@ -8,9 +8,11 @@ from typing import List, Optional
 from fastapi_users import FastAPIUsers
 from pydantic import BaseModel, Field
 
-from auth.auth import auth_backend
+from auth.base_config import auth_backend
 from auth.manager import get_user_manager
 from auth.schemas import UserRead, UserCreate
+
+from src.operations.router import router as router_operation
 
 app = FastAPI(
     title="Trading App"
@@ -109,6 +111,8 @@ app.include_router(
     tags=["auth"],
 )
 
+app.include_router(router_operation)
+
 current_user = fastapi_users.current_user()
 
 @app.get("/protected-route")
@@ -119,6 +123,7 @@ def protected_route(user: User = Depends(current_user)):
 @app.get("/unprotected-route")
 def unprotected_route():
     return f"Hello, anonym"
+
 
 if __name__ == '__main__':
     uvicorn.run("main:app", host='127.0.0.1', port=8000, reload=True)

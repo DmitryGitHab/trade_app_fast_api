@@ -1,5 +1,10 @@
-alembic
-fastapi[all]
-psycopg2
-python-dotenv
-sqlalchemy
+alembic~=1.12.1
+asyncpg
+fastapi[all]~=0.104.0
+fastapi-users[sqlalchemy]
+python-dotenv~=1.0.0
+sqlalchemy~=2.0.22
+
+
+uvicorn~=0.23.2
+pydantic~=2.4.2
