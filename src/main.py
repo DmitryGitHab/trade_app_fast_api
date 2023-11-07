@@ -1,10 +1,13 @@
 from datetime import datetime
 from enum import Enum
 
+from redis import asyncio as aioredis
 import uvicorn
 from fastapi import FastAPI, Depends
 from typing import List, Optional
 
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
 from fastapi_users import FastAPIUsers
 from pydantic import BaseModel, Field
 
@@ -123,6 +126,12 @@ def protected_route(user: User = Depends(current_user)):
 @app.get("/unprotected-route")
 def unprotected_route():
     return f"Hello, anonym"
+
+
+@app.on_event("startup")
+async def startup_event():
+    redis = aioredis.from_url("redis://localhost", encoding="utf8", decode_responses=True)
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
 
 
 if __name__ == '__main__':

@@ -1,5 +1,7 @@
 alembic~=1.12.1
 asyncpg
+fastapi-cache2[redis]
+
 fastapi[all]~=0.104.0
 fastapi-users[sqlalchemy]
 python-dotenv~=1.0.0
