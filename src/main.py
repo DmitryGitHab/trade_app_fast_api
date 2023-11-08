@@ -12,10 +12,12 @@ from fastapi_users import FastAPIUsers
 from pydantic import BaseModel, Field
 
 from auth.base_config import auth_backend
+
 from auth.manager import get_user_manager
 from auth.schemas import UserRead, UserCreate
 
 from src.operations.router import router as router_operation
+from src.tasks.router import router as router_tasks
 
 app = FastAPI(
     title="Trading App"
@@ -114,7 +116,9 @@ app.include_router(
     tags=["auth"],
 )
 
+app.include_router(router_tasks)
 app.include_router(router_operation)
+
 
 current_user = fastapi_users.current_user()
 
